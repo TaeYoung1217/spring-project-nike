@@ -1,5 +1,6 @@
 package com.github.supercodingspring.nike.web.advice;
 
+import com.github.supercodingspring.nike.service.exceptions.InvalidValueException;
 import com.github.supercodingspring.nike.service.exceptions.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -15,5 +16,11 @@ public class ExceptionControllerAdvice {
     @ExceptionHandler(NotFoundException.class)
     public String handleNotFoundException(NotFoundException nfe){
         return nfe.getMessage();
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(InvalidValueException.class)
+    public String handleInvalidValueException(InvalidValueException ive){
+        return ive.getMessage();
     }
 }
