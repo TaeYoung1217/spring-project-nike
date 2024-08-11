@@ -9,7 +9,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity
 @Table(name = "sneaker_model_traits")
 public class SneakerModelTraits {
@@ -20,7 +19,7 @@ public class SneakerModelTraits {
     @JoinColumn(name = "model_id")
     private Sneaker sneaker;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "trait_id")
     private SneakerTraits sneakerTraits;
 }

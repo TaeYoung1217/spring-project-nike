@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @EqualsAndHashCode(of = "koreaInventoryId")
 @Table(name = "korea_inventory")
-@ToString
+@ToString(exclude = "sneaker")
 @Builder
 @Entity
 public class KoreaInventory {
@@ -17,8 +17,8 @@ public class KoreaInventory {
     @Column(name = "korea_inventory_id")
     private Integer koreaInventoryId;
 
-    @JoinColumn(name = "model_id")
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "model_id")
     private Sneaker sneaker;
 
     @Column(name = "sneaker_size")

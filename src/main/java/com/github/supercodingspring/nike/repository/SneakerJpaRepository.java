@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SneakersStoreItemJpaRepository extends JpaRepository<Sneaker,Integer> {
+public interface SneakerJpaRepository extends JpaRepository<Sneaker,Integer> {
     Page<Sneaker> findAll(Pageable pageable);
 }
