@@ -1,5 +1,6 @@
 package com.github.supercodingspring.nike.repository;
 
+import com.github.supercodingspring.nike.web.dto.OrderBody;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,8 +24,8 @@ public class Orders {
     @OneToOne(fetch = FetchType.LAZY)
     private GeneralUser generalUser;
 
+    @ManyToOne
     @JoinColumn(name = "model_id")
-    @ManyToOne(fetch = FetchType.LAZY)
     private Sneaker sneaker;
 
     @Column(name = "sneaker_size")
@@ -40,9 +41,17 @@ public class Orders {
     private Double totalPrice;
 
     @Column(name = "order_status")
-    private String orderStatus;
+    @Enumerated
+    private OrderStatus orderStatus;
 
     @Column(name = "order_at")
     private LocalDateTime orderAt;
 
+    public Orders(OrderBody orderBody) {
+        this.sneaker = new Sneaker(orderBody.getModelId());
+        this.generalUser = new GeneralUser(orderBody.getUserId());
+        this.shippingAddress = orderBody.getShippingAddress();
+        this.sneakerSize = orderBody.getSneakerSize();
+        this.orderQuantity = orderBody.getOrderQuantity();
+    }
 }
