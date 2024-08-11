@@ -2,6 +2,7 @@ package com.github.supercodingspring.nike.repository;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.relational.core.sql.In;
 
 import java.time.LocalDateTime;
 
@@ -28,7 +29,7 @@ public class Payment {
     private Orders orders;
 
     @Column(name = "type")
-    private String type;
+    private Integer type;
 
     @Column(name = "payment_at")
     private LocalDateTime paymentAt;
