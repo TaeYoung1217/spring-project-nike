@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @ToString
 @Builder
 @Entity
-public class wish {
+public class Wish {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "wish_id")
     private Integer wishId;
