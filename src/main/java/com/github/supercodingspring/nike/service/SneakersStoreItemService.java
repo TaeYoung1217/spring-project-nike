@@ -26,6 +26,7 @@ public class SneakersStoreItemService {
     private final SneakerJpaRepository sneakerJpaRepository;
     private final OrderJpaRepository orderJpaRepository;
     private final UserJpaRepository userJpaRepository;
+    private final GeneralUserJpaRepository generalUserJpaRepository;
 
     //@Cacheable(value = "sneaker", key = "#root.methodName")
     public Page<SneakerDto> findAllItem(Pageable pageable) {
@@ -53,9 +54,8 @@ public class SneakersStoreItemService {
     public String orderItem(OrderBody orderBody) {
         Double totalPrice = findPriceById(String.valueOf(orderBody.getModelId())) * orderBody.getOrderQuantity();
         Sneaker sneaker = sneakerJpaRepository.findById(orderBody.getModelId()).orElseThrow(()->new NotFoundException("modelId "+orderBody.getModelId()+"를 찾을 수 없습니다."));
-        User user = userJpaRepository.findById(orderBody.getUserId()).orElseThrow(()->new NotFoundException("userId "+orderBody.getUserId()+"를 찾을 수 없습니다."));
-
-        Orders orders = new Orders(orderBody, sneaker, user);
+        GeneralUser generalUser = generalUserJpaRepository.findById(orderBody.getUserId()).orElseThrow(()->new NotFoundException("userId "+orderBody.getUserId()+"를 찾을 수 없습니다."));
+        Orders orders = new Orders(orderBody, sneaker, generalUser);
 
         orders.setOrderAt(LocalDateTime.now());
         orders.setTotalPrice(totalPrice);
