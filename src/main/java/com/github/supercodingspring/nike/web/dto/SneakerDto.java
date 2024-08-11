@@ -8,7 +8,6 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString
 public class SneakerDto {
     @Schema(description = "The Unique ID of sneaker", example = "1")
