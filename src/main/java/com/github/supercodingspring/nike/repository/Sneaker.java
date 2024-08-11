@@ -25,4 +25,11 @@ public class Sneaker {
 
     @OneToMany(mappedBy = "sneaker")
     private List<SneakerModelTraits> sneakerModelTraits;
+
+    @OneToMany(mappedBy = "sneaker")
+    private List<KoreaInventory> koreaInventories;
+
+    public Sneaker(Integer modelId) {
+        this.modelId = modelId;
+    }
 }
