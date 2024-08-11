@@ -1,6 +1,7 @@
 package com.github.supercodingspring.nike.service;
 
 import com.github.supercodingspring.nike.repository.*;
+import com.github.supercodingspring.nike.service.exceptions.InvalidValueException;
 import com.github.supercodingspring.nike.service.exceptions.NotFoundException;
 import com.github.supercodingspring.nike.service.mapper.SneakerMapper;
 import com.github.supercodingspring.nike.web.dto.OrderBody;
@@ -55,6 +56,12 @@ public class SneakersStoreItemService {
         Double totalPrice = findPriceById(String.valueOf(orderBody.getModelId())) * orderBody.getOrderQuantity();
         Sneaker sneaker = sneakerJpaRepository.findById(orderBody.getModelId()).orElseThrow(()->new NotFoundException("modelId "+orderBody.getModelId()+"를 찾을 수 없습니다."));
         GeneralUser generalUser = generalUserJpaRepository.findById(orderBody.getUserId()).orElseThrow(()->new NotFoundException("userId "+orderBody.getUserId()+"를 찾을 수 없습니다."));
+
+        if(orderBody.getShippingAddress() == null)
+            if(generalUser.getFavoriteShoppingAddress() == null)
+                throw new InvalidValueException("유효하지 않은 주문입니다.");
+            else orderBody.setShippingAddress(generalUser.getFavoriteShoppingAddress());
+
         Orders orders = new Orders(orderBody, sneaker, generalUser);
 
         orders.setOrderAt(LocalDateTime.now());
