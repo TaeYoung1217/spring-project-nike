@@ -30,4 +30,8 @@ public class GeneralUser {
 
     @Column(name = "my_bank_account", length = 30)
     private String myBackAccount;
+
+    public GeneralUser(Integer gUserId) {
+        this.gUserId = gUserId;
+    }
 }
