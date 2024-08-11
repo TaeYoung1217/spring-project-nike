@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 public class SneakersStoreItemService {
     private final SneakerJpaRepository sneakerJpaRepository;
     private final OrderJpaRepository orderJpaRepository;
+    private final UserJpaRepository userJpaRepository;
 
     //@Cacheable(value = "sneaker", key = "#root.methodName")
     public Page<SneakerDto> findAllItem(Pageable pageable) {
@@ -51,10 +52,15 @@ public class SneakersStoreItemService {
 
     public String orderItem(OrderBody orderBody) {
         Double totalPrice = findPriceById(String.valueOf(orderBody.getModelId())) * orderBody.getOrderQuantity();
-        Orders orders = new Orders(orderBody);
+        Sneaker sneaker = sneakerJpaRepository.findById(orderBody.getModelId()).orElseThrow(()->new NotFoundException("modelId "+orderBody.getModelId()+"를 찾을 수 없습니다."));
+        User user = userJpaRepository.findById(orderBody.getUserId()).orElseThrow(()->new NotFoundException("userId "+orderBody.getUserId()+"를 찾을 수 없습니다."));
+
+        Orders orders = new Orders(orderBody, sneaker, user);
+
         orders.setOrderAt(LocalDateTime.now());
         orders.setTotalPrice(totalPrice);
         orders.setOrderStatus(OrderStatus.ORDER_COMPLETED);
+
         orderJpaRepository.save(orders);
 
         return "구매하신 물품 "+totalPrice+"이고 예약완료 되었습니다.";

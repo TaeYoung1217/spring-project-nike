@@ -47,9 +47,9 @@ public class Orders {
     @Column(name = "order_at")
     private LocalDateTime orderAt;
 
-    public Orders(OrderBody orderBody) {
-        this.sneaker = new Sneaker(orderBody.getModelId());
-        this.generalUser = new GeneralUser(orderBody.getUserId());
+    public Orders(OrderBody orderBody, Sneaker sneaker, User user) {
+        this.sneaker = sneaker;
+        this.generalUser = new GeneralUser(user);
         this.shippingAddress = orderBody.getShippingAddress();
         this.sneakerSize = orderBody.getSneakerSize();
         this.orderQuantity = orderBody.getOrderQuantity();
